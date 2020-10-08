@@ -3,8 +3,8 @@ package com.lee.webvideo
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(), VideoWebViewOwner {
     @Suppress("DEPRECATION")
     override fun onFullscreenEventChanged(isFullscreen: Boolean) {
         if (isFullscreen) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            window.decorView.systemUiVisibility = fullscreenFlags
             web_view.evaluateJavascript(js) { result ->
                 val jb = JSONObject(result)
                 val width = jb.getInt("width")
@@ -58,12 +58,17 @@ class MainActivity : AppCompatActivity(), VideoWebViewOwner {
                     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                 }
             }
-//            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         } else {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            window.decorView.systemUiVisibility = 0
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
     }
+
+    @Suppress("DEPRECATION")
+    private val fullscreenFlags = (View.SYSTEM_UI_FLAG_FULLSCREEN
+            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
     private val js = """
         function getVideoRect() {
