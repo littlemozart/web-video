@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <style type="text/css">
+    .root-div {
+      display: flex; 
+      flex-direction: column; 
+      padding: 15px; 
+      overflow-x: hidden;
+    }
+      
+    .video-container {
+      position: relative;
+      overflow: hidden;
+      padding-top: 56.25%;
+      margin-top: 10px;
+      border-radius: 3px;
+      background-color: black;
+    }
+
+    .video-title {
+      color: #333; 
+      font-weight: bold; 
+      font-size: 16px;
+    }
+
+    .video-mask,
+    .video-cover {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+    }
+
+    .video-mask {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .play-btn {
+      width: 48px;
+      height: 48px;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
+      opacity: 0.75;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="root-div">
+      <span class="video-title" id="videoTitle"></span>
+      <div class="video-container" id="videoContainer">
+        <img class="video-cover" id="videoCover"/>
+        <div class="video-mask"></div>
+        <img class="play-btn" src="./play.svg" onclick="onClick()"/>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    var videoData = {
+      id: "videoContainer",
+      url: "https://13.cdn-vod.huaweicloud.com/asset/6cc185e4bfb0eee39d4b1f53560d9d4e/play_video/615302baf99559b3649e0c79f3ee6b18.m3u8",
+      cover: "https://ilearningx.huawei.com/asset-v1:HuaweiX+EBGTC00000385+Self-paced+type@asset+block@8379a40cd08711e9adf8fa163e8e7caa_20190906.jpg",
+      title: "华为云入门"
+    };
+    function init() {
+      document.getElementById('videoTitle').innerText = videoData.title;
+      document.getElementById('videoCover').src = videoData.cover;
+    }
+    function onClick() {
+      let json = JSON.stringify(videoData);
+      if (window && window.android) {
+        window.android.play(json);
+      }
+    }
+    init();
+  </script>
+</html>

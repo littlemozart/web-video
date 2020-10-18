@@ -28,7 +28,7 @@ import kotlin.math.roundToInt
 class ExoVideoActivity : AppCompatActivity() {
 
     companion object {
-        private const val WEB_URL = "http://192.168.1.10:8080/"
+        private const val WEB_URL = "file:android_asset/test.html"
     }
 
     private lateinit var orientationManager: OrientationManager
